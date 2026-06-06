@@ -1,6 +1,11 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:9090"; // backend base URL
+const API_URL = import.meta.env.VITE_API_URL;
+
+// src/api.js
+
+console.log("ALL ENV =", import.meta.env);
+console.log("API URL =", import.meta.env.VITE_API_URL);
 
 // ---- Auth APIs ----
 export const registerUser = async (userData) => {

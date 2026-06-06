@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+console.log(import.meta.env.VITE_API_URL);
+
 const API = axios.create({
-  baseURL: 'http://localhost:8080/api', // your backend URL
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
 });
 
 export const loginUser = (email, password) => API.post('/auth/login', { email, password });

@@ -13,6 +13,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const res = await loginUser(email, password);
+      console.log(res.data);
 
       // Pass both user object and token to AuthContext
       login(res.data.data.user, res.data.data.token);

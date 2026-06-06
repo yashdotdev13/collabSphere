@@ -34,10 +34,9 @@ const RegisterPage = () => {
       const res = await registerUser(userData);
 
       // backend sends response in res.data.data
-      const registeredUser = res.data.data;
-      const mockToken = "jwt-token-placeholder"; // replace if backend gives token
+      const registeredUser = res.data;
 
-      login(registeredUser, mockToken);
+       navigate("/login");
 
       navigate(registeredUser.role === "FACULTY" ? "/faculty" : "/student");
     } catch (err) {
