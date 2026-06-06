@@ -1,0 +1,28 @@
+services:
+
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: collabsphere-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: collabsphere
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: collabsphere-backend
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8090:8090"
+
+volumes:
+  postgres_data:
