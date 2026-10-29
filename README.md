@@ -1,1 +1,1 @@
-See the downloadable full README artifact attached in ChatGPT; README synchronization encountered an integration issue.
+Please use the full README.md file provided as a downloadable artifact in the conversation.
