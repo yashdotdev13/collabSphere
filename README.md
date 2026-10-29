@@ -1,1 +1,419 @@
-Please use the full README.md file provided as a downloadable artifact in the conversation.
+# 🌐 CollabSphere
+
+<p align="center">
+  <strong>A collaboration platform connecting students and faculty through opportunities, student projects, and meaningful academic collaboration.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/yashdotdev13/collabSphere"><img src="https://img.shields.io/badge/status-in%20development-orange" alt="Project status: in development"></a>
+  <a href="https://github.com/yashdotdev13/collabSphere/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-not%20specified-lightgrey" alt="License"></a>
+  <a href="https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html"><img src="https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white" alt="Java 21"></a>
+  <a href="https://spring.io/projects/spring-boot"><img src="https://img.shields.io/badge/Spring%20Boot-3.5.5-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot 3.5.5"></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React 19"></a>
+  <a href="https://vite.dev/"><img src="https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white" alt="Vite 6"></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-16%2B-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL"></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-supported-2496ED?logo=docker&logoColor=white" alt="Docker support"></a>
+</p>
+
+---
+
+## 📌 Overview
+
+**CollabSphere** is a full-stack web application for students and faculty to discover opportunities, showcase projects, find collaborators, and follow application or collaboration updates from one place.
+
+The platform brings together opportunity publishing and applications with student project discovery, faculty endorsements, role-aware dashboards, and notifications. Its frontend is built with React and Vite, while the backend exposes REST APIs using Spring Boot and persists application data in PostgreSQL.
+
+## ✨ Features
+
+### 🔐 Authentication and authorization
+- Register and log in with the authentication API.
+- Stateless authentication using JSON Web Tokens (JWT).
+- Password hashing with Spring Security's BCrypt encoder.
+- Role-aware access for **Student**, **Faculty**, and **Admin** users.
+
+### 🎯 Opportunities and applications
+- Faculty and administrators can create opportunities and publish them.
+- Authenticated users can browse active opportunities and view opportunity details.
+- Students can apply for opportunities and review their application list.
+- Faculty and administrators can view applications for an opportunity.
+- Administrators can delete opportunities.
+
+### 🧑‍💻 Student projects and collaboration
+- Students can create and share projects.
+- Browse projects and open an individual project page.
+- Students can send collaboration requests for projects.
+- Project collaboration requests can be reviewed by the project owner.
+- Project status can be updated by authorized faculty or administrators.
+
+### 🎓 Faculty endorsements
+- Faculty members can endorse student projects.
+- Endorsements can be viewed by project.
+- Faculty or administrators can revoke an endorsement; administrator-only views provide additional oversight.
+
+### 📊 Dashboards and profiles
+- Student dashboard data, including project- and activity-related information.
+- Faculty dashboard with relevant opportunity and collaboration information.
+- Profile lookup and student bio update endpoints.
+- Administrative user-management endpoints.
+
+### 🔔 Notifications
+- Retrieve notifications associated with a user.
+- Mark notifications as read.
+- The backend includes a Spring Mail dependency for email-related functionality.
+
+> **Note:** The repository contains notification APIs and mail configuration support. Actual delivery, deployment integrations, and runtime behavior depend on the environment and configuration you provide.
+
+## 🧰 Technology Stack
+
+| Area | Technologies |
+|---|---|
+| Frontend | React 19, Vite 6, React Router, Tailwind CSS 4 |
+| Frontend networking | Axios, `jwt-decode` |
+| Backend | Java 21, Spring Boot 3.5.5, Spring Web |
+| Security | Spring Security, JWT (JJWT), BCrypt password hashing |
+| Persistence | Spring Data JPA, Hibernate, PostgreSQL, Hibernate Spatial |
+| Validation and mapping | Jakarta Bean Validation, ModelMapper, Lombok |
+| API documentation | Springdoc OpenAPI / Swagger UI dependency |
+| Email | Spring Boot Mail |
+| Containers | Docker, Docker Compose, Nginx |
+
+## 🏗️ Architecture
+
+CollabSphere is organized as a frontend and backend application. The browser-based React client sends HTTP requests to the Spring Boot REST API. The backend validates requests, applies authentication and role-based authorization, executes business logic through service classes, and accesses PostgreSQL through Spring Data JPA/Hibernate.
+
+```mermaid
+flowchart LR
+    U[Student / Faculty / Admin] --> UI[React + Vite frontend]
+    UI -->|REST / JSON + JWT| API[Spring Boot REST API]
+    API --> SEC[Spring Security + JWT filter]
+    SEC --> SVC[Application services]
+    SVC --> JPA[Spring Data JPA / Hibernate]
+    JPA --> DB[(PostgreSQL / PostGIS image in Compose)]
+    SVC --> MAIL[Spring Mail, when configured]
+```
+
+## 📂 Repository Structure
+
+```text
+collabSphere/
+├── backend/
+│   ├── src/main/java/com/company/collabSphere_backend/
+│   │   ├── config/          # Security, CORS and mapper configuration
+│   │   ├── controller/      # REST API endpoints
+│   │   ├── service/         # Business logic
+│   │   ├── repository/      # Data access layer
+│   │   ├── entity/          # Persistence entities
+│   │   ├── dtos/            # Request and response objects
+│   │   └── ...              # Security, dashboards, enums, exception handling
+│   ├── src/main/resources/  # Spring configuration
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── mvnw                 # Maven Wrapper (Unix)
+│   ├── mvnw.cmd             # Maven Wrapper (Windows)
+│   └── pom.xml
+└── frontend/
+    ├── src/
+    │   ├── api.js           # API client functions
+    │   ├── components/      # Shared UI components
+    │   ├── contexts/        # Authentication context
+    │   ├── pages/           # Screens and dashboards
+    │   └── routes/          # Application routes
+    ├── Dockerfile
+    ├── nginx.conf
+    ├── package.json
+    └── vite.config.js
+```
+
+## ✅ Prerequisites
+
+For local development, install:
+
+- **Git**
+- **Java Development Kit (JDK) 21**
+- **Node.js** (Node.js 22 is used by the frontend Docker build) and npm
+- **PostgreSQL** compatible with the configured JDBC URL, or Docker with Docker Compose
+
+Check your installations:
+
+```bash
+git --version
+java -version
+node --version
+npm --version
+```
+
+## 🚀 Getting Started (Local Development)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/yashdotdev13/collabSphere.git
+cd collabSphere
+```
+
+### 2. Configure PostgreSQL
+
+Create a PostgreSQL database for the application. For example, from `psql`:
+
+```sql
+CREATE DATABASE collabsphere;
+```
+
+The checked-in local properties currently reference `jdbc:postgresql://localhost:5432/postgres`, while the Compose service creates a database named `collabsphere`. Set the JDBC URL and credentials to match the database you actually use. Do not commit passwords or JWT secrets.
+
+### 3. Configure backend environment
+
+The backend's Spring Boot configuration should be supplied through environment variables or an untracked local configuration file. Spring Boot supports environment-variable overrides such as these:
+
+| Setting | Example for local development | Purpose |
+|---|---|---|
+| `SERVER_PORT` | `8090` | API port |
+| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://localhost:5432/collabsphere` | PostgreSQL JDBC URL |
+| `SPRING_DATASOURCE_USERNAME` | `postgres` | Database username |
+| `SPRING_DATASOURCE_PASSWORD` | Set locally | Database password |
+| `JWT_SECRETKEY` | Set a strong, private secret | JWT signing configuration |
+| `FRONTEND_URL` | `http://localhost:5173` | Frontend origin used by application configuration |
+| `SPRING_MAIL_USERNAME` | Your SMTP account | Optional email sender account |
+| `SPRING_MAIL_PASSWORD` | App password / SMTP credential | Optional email sender credential |
+
+Use your own credentials, and keep secret values out of source control, screenshots, issue reports, and logs.
+
+### 4. Start the backend
+
+From the repository root:
+
+**Windows (PowerShell):**
+
+```powershell
+cd backend
+$env:SERVER_PORT = "8090"
+$env:SPRING_DATASOURCE_URL = "jdbc:postgresql://localhost:5432/collabsphere"
+$env:SPRING_DATASOURCE_USERNAME = "postgres"
+$env:SPRING_DATASOURCE_PASSWORD = "<your-local-db-password>"
+$env:JWT_SECRETKEY = "<your-private-jwt-secret>"
+.\mvnw.cmd spring-boot:run
+```
+
+**Linux / macOS:**
+
+```bash
+cd backend
+export SERVER_PORT=8090
+export SPRING_DATASOURCE_URL='jdbc:postgresql://localhost:5432/collabsphere'
+export SPRING_DATASOURCE_USERNAME='postgres'
+export SPRING_DATASOURCE_PASSWORD='<your-local-db-password>'
+export JWT_SECRETKEY='<your-private-jwt-secret>'
+./mvnw spring-boot:run
+```
+
+The backend is configured to listen on **http://localhost:8090** by default. Keep PostgreSQL running before starting Spring Boot.
+
+To build the backend without starting it:
+
+```bash
+# Run from backend/
+./mvnw clean package
+# Windows: .\mvnw.cmd clean package
+```
+
+### 5. Configure and start the frontend
+
+The frontend reads its backend base URL from `VITE_API_URL`. Create `frontend/.env.local` (this file should remain local and not be committed):
+
+```dotenv
+VITE_API_URL=http://localhost:8090
+```
+
+Then run:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Vite normally serves the frontend at **http://localhost:5173**. If Vite chooses another port, make sure the backend CORS configuration allows that origin.
+
+Useful frontend scripts:
+
+```bash
+npm run dev      # Start local development server
+npm run build    # Create production build in dist/
+npm run preview  # Preview the production build locally
+npm run lint     # Run ESLint
+```
+
+### 6. Open the application
+
+- **Frontend:** http://localhost:5173
+- **Backend API:** http://localhost:8090
+- **OpenAPI / Swagger UI:** commonly available at http://localhost:8090/swagger-ui/index.html when the application starts successfully and the springdoc configuration is enabled.
+
+Swagger UI availability and exact paths can depend on the runtime security/configuration setup.
+
+## 🐳 Run PostgreSQL and Backend with Docker Compose
+
+A Compose file is provided under `backend/`. From that directory:
+
+```bash
+cd backend
+docker compose up --build -d
+```
+
+Check service status and logs:
+
+```bash
+docker compose ps
+docker compose logs -f backend
+docker compose logs -f postgres
+```
+
+Stop the services:
+
+```bash
+docker compose down
+```
+
+To remove the persisted database volume as well (this deletes the Compose database data):
+
+```bash
+docker compose down -v
+```
+
+The Compose configuration publishes PostgreSQL on port `5432` and the backend on port `8090`, and uses a named volume for database persistence. The PostgreSQL service uses the `postgis/postgis` image. Review the backend's Docker profile configuration and datasource settings before running Compose; the database host inside a container should be the Compose service name (`postgres`), not `localhost`. The Compose file should be treated as a development baseline until credentials, health checks, startup ordering, and runtime profiles are configured for your deployment.
+
+The frontend also has a Dockerfile that builds static assets and serves them through Nginx. Build it from `frontend/` after setting the correct API base URL for the target environment:
+
+```bash
+cd frontend
+docker build -t collabsphere-frontend .
+docker run --rm -p 8081:80 collabsphere-frontend
+```
+
+Open http://localhost:8081. Since Vite environment variables are injected at build time, configure `VITE_API_URL` before building the image for the deployment environment.
+
+## 📚 REST API Overview
+
+All routes below are defined under the backend controllers. Protected endpoints require a valid JWT bearer token and the appropriate role unless the security configuration explicitly permits public access.
+
+| Area | Method | Endpoint | Intended use / access indicated in controller |
+|---|---|---|---|
+| Authentication | `POST` | `/api/auth/register` | Register a user; public |
+| Authentication | `POST` | `/api/auth/login` | Authenticate and obtain login response; public |
+| Opportunities | `POST` | `/api/opportunities` | Create; Faculty/Admin |
+| Opportunities | `GET` | `/api/opportunities/active` | List active opportunities; authenticated roles |
+| Opportunities | `GET` | `/api/opportunities/{id}` | Get opportunity details; authenticated roles |
+| Opportunities | `PUT` | `/api/opportunities/{id}/publish` | Publish; Faculty/Admin |
+| Opportunities | `DELETE` | `/api/opportunities/{id}` | Delete; Admin |
+| Applications | `POST` | `/api/applications` | Apply to opportunity; Student |
+| Applications | `GET` | `/api/applications/student` | List current student's applications; Student |
+| Applications | `GET` | `/api/applications/opportunity/{id}` | List applications for opportunity; Faculty/Admin |
+| Projects | `POST` | `/api/projects/create/{ownerId}` | Create a project; Student |
+| Projects | `GET` | `/api/projects` | List projects; controller marks public |
+| Projects | `GET` | `/api/projects/{id}` | Get project by ID; controller marks public |
+| Projects | `GET` | `/api/projects/owner/{ownerId}` | List projects by owner; Student |
+| Projects | `PATCH` | `/api/projects/{id}/status?status={value}` | Update status; Faculty/Admin |
+| Projects | `DELETE` | `/api/projects/{id}` | Delete; Admin |
+| Collaboration | `POST` | `/api/collaborations/apply` | Submit a collaboration request; Student |
+| Collaboration | `PUT` | `/api/collaborations/{requestId}/decide?ownerId={ownerId}` | Accept/reject a request; Student role required by controller |
+| Collaboration | `GET` | `/api/collaborations/project/{projectId}` | List requests for a project; Student role required |
+| Collaboration | `GET` | `/api/collaborations/student/{studentId}` | List requests by student; Student role required |
+| Endorsements | `POST` | `/api/endorsements` | Endorse a project; Faculty role required by controller |
+| Endorsements | `GET` | `/api/endorsements/project/{projectId}` | List project endorsements; controller marks public |
+| Endorsements | `PUT` | `/api/endorsements/{endorsementId}/revoke` | Revoke endorsement; Faculty/Admin |
+| Notifications | `GET` | `/api/notifications/user/{userId}` | Fetch a user's notifications |
+| Notifications | `PUT` | `/api/notifications/{notificationId}/read` | Mark a notification as read |
+| Users | `GET` | `/api/users/me` | Get the authenticated user's profile |
+| Users | `GET` | `/api/users/student/{id}` | Get student dashboard; Student |
+| Users | `GET` | `/api/users/faculty/{facultyId}` | Get faculty dashboard; Faculty |
+| Users | `PATCH` | `/api/users/{id}/bio` | Update a student bio; Student |
+| Users | `GET` | `/api/users` and `/api/users/{id}` | Administrative user listing/details; Admin |
+
+The controller-level role annotations are summarized above; overall authorization rules are also applied in the Spring Security filter chain. Review both the global security configuration and method annotations when testing endpoints. Request and response DTOs define the accepted payload shapes.
+
+### Example: Register and log in
+
+The authentication endpoints are `POST /api/auth/register` and `POST /api/auth/login`. The login request uses `email` and `password` fields. The registration DTO determines the exact required fields, so check `UserRequestDto` before submitting a request.
+
+Example login request:
+
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "student@example.com",
+  "password": "your-password"
+}
+```
+
+Use the token returned by the API in subsequent protected requests:
+
+```http
+Authorization: Bearer <your-jwt-token>
+```
+
+### Example: Fetch active opportunities
+
+```bash
+curl -H "Authorization: Bearer <your-jwt-token>" \
+  http://localhost:8090/api/opportunities/active
+```
+
+## 🔒 Security and Configuration Notes
+
+- **Rotate exposed secrets.** Credentials should never be committed. If database or SMTP credentials or a JWT signing secret have previously been pushed to a public repository, revoke/rotate them and remove them from tracked configuration and Git history where appropriate.
+- Use environment variables, an untracked local configuration file, or a secrets manager to supply sensitive values.
+- Use a strong, unique JWT signing secret appropriate for the JWT algorithm configured by the application.
+- `spring.jpa.hibernate.ddl-auto=update` is convenient in development, but production environments should use a deliberate schema migration strategy and backups.
+- Review CORS origins, authorization rules, notification endpoints, and ownership checks before deploying to the internet.
+- Do not expose debug logging or SQL statements in production.
+
+## 🧪 Testing and Quality Checks
+
+Backend tests can be run with the Maven Wrapper from `backend/`:
+
+```bash
+./mvnw test
+# Windows: .\mvnw.cmd test
+```
+
+Frontend lint and production build can be run from `frontend/`:
+
+```bash
+npm run lint
+npm run build
+```
+
+## 🗺️ Potential Next Steps
+
+- Add screenshots or a short product demo to help visitors understand the UI.
+- Publish a deployment guide with production environment variable names and supported hosting setup.
+- Keep API examples aligned with DTO validation rules and document representative error responses.
+- Add automated CI checks for backend tests and frontend lint/build.
+
+## 🤝 Contributing
+
+Contributions, bug reports, and feature suggestions are welcome. For changes:
+
+1. Fork the repository.
+2. Create a focused branch: `git checkout -b feat/your-feature`.
+3. Make and test your changes.
+4. Open a pull request describing the change and how it was verified.
+
+For bugs, include reproducible steps, relevant sanitized logs, and expected versus actual behavior. Never include credentials or personal data in issues.
+
+## 📄 License
+
+The repository metadata does not currently identify a license file. Confirm the intended license before reusing or redistributing this project, then add a `LICENSE` file and update this section accordingly.
+
+## 👨‍💻 Maintainer
+
+**Yash Chauhan** — [@yashdotdev13](https://github.com/yashdotdev13)
+
+- Repository: [yashdotdev13/collabSphere](https://github.com/yashdotdev13/collabSphere)
+- Issues and feature requests: [GitHub Issues](https://github.com/yashdotdev13/collabSphere/issues)
+
+---
+
+<p align="center">Built to make student projects, opportunities, and collaboration easier to discover and manage. ✨</p>
