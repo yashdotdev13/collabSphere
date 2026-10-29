@@ -1,1 +1,1 @@
-Use the local downloadable README file linked in this conversation for full contents.
+See the downloadable full README artifact attached in ChatGPT; README synchronization encountered an integration issue.
