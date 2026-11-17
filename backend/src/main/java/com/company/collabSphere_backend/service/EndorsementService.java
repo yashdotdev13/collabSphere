@@ -29,7 +29,7 @@ public class EndorsementService {
     private final ProjectRepository projectRepository;
     private final ModelMapper modelMapper;
     private final NotificationService notificationService;
-    private final EmailService emailService; // ✅ Added email service
+    private final EmailService emailService; //  Added email service
 
     @Transactional
     public EndorsementResponseDto endorseProject(EndorsementRequestDto requestDto) {

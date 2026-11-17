@@ -28,7 +28,7 @@ public class CollaborationRequestService {
     private final ProjectRepository projectRepository;
     private final ModelMapper modelMapper;
     private final NotificationService notificationService;
-    private final EmailService emailService; // ✅ Added EmailService
+    private final EmailService emailService; // Added EmailService
 
     public CollaborationResponseDto applyForCollaboration(CollaborationRequestDto requestDto){
         log.info("Student {} applying for project {}",requestDto.getStudentId(),requestDto.getProjectId());

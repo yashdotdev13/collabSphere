@@ -48,7 +48,7 @@ public class ProjectService {
         Project savedProject = projectRepository.save(project);
         log.info("Project created successfully with id: {}", savedProject.getId());
 
-        // 🔔 In-app notification
+        //  In-app notification
         Long adminId = 1L; // Example: notify admin
         notificationService.createNotification(
                 adminId,
@@ -57,7 +57,7 @@ public class ProjectService {
                 savedProject.getId()
         );
 
-        // ✉️ Email notification
+        //  Email notification
         emailService.sendEmail(
                 owner.getEmail(),
                 "Project Created Successfully",
